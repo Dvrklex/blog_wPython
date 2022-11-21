@@ -15,7 +15,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost/blog_pyt
 db=SQLAlchemy(app)
 
 
-# auth = Blueprint('auth', __name__, url_prefix='/auth')
 
 class Post(db.Model):
     __tablename__ = 'posts'
@@ -105,7 +104,7 @@ def login():
         
     return render_template('login.html')
 
-
+#Obtener usuario actual
 @app.before_request
 def load_logged_in_user():
     user_id = session.get('user_id')
@@ -115,11 +114,14 @@ def load_logged_in_user():
     else:
         g.user = User.query.get_or_404(user_id)
 
+
+#Crerrar sesion
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('login'))
 
+#Decorador para verificar si el usuario esta logueado
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
@@ -150,24 +152,22 @@ def create():
     if request.method == 'POST':
         title = request.form.get('title')
         body = request.form.get('body')
-
         post = Post(g.user.id, title, body)
-
         error = None
         if not title:
-            error = 'Se requiere un título'
-        
+            error = 'Debe ingresar un título válido'
         if error is not None:
             flash(error)
         else:
             db.session.add(post)
             db.session.commit()
             return redirect(url_for('index'))
-        
         flash(error)
         
     return render_template('create.html')
 
+
+#Chequear si el usuario es el autor del post
 def get_post(id, check_author=True):
     post = Post.query.get(id)
 
@@ -183,26 +183,20 @@ def get_post(id, check_author=True):
 @app.route('/blog/update/<int:id>', methods=('GET','POST'))
 @login_required
 def update(id):
-
     post = get_post(id) 
-
     if request.method == 'POST':
         post.title = request.form.get('title')
         post.body = request.form.get('body')
-
         error = None
         if not post.title:
             error = 'Se requiere un título'
-        
         if error is not None:
             flash(error)
         else:
             db.session.add(post)
             db.session.commit()
             return redirect(url_for('index'))
-        
         flash(error)
-        
     return render_template('update.html', post=post)
 
 #Eliminar un post
@@ -214,5 +208,7 @@ def delete(id):
     db.session.commit()
 
     return redirect(url_for('index'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
