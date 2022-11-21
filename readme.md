@@ -25,3 +25,4 @@ Migrar los cambios a la db
 - flask run
 
 ### Finalmente abre tu navegador para visualizar la aplicación.
+![Alt text](../../../../../c:/Users/lobod/Desktop/Captura%20de%20pantalla%202022-11-21%20015807.png)
