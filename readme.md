@@ -11,6 +11,10 @@ Ejemplo de como llamar la base de datos en tu código:
 - app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost/blog_python'
 
 ## FLASK MIGRATE - Comando para generar los modelados de las tablas.
+Moverse a la carpeta models
+- cd models
+(Si en la carpeta models ya existe una carpeta migrations eliminala por completo)
+
 Iniciar Migraciones
 - flask db init
 
@@ -22,6 +26,7 @@ Migrar los cambios a la db
 
 
 ## FLASK - Comando para ejecutar la Aplicacion
+- cd ../ (para volver a situarse en la raiz del projecto)
 - flask run
 
 ### Finalmente abre tu navegador para visualizar la aplicación.
