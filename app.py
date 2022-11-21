@@ -199,7 +199,7 @@ def update(id):
         flash(error)
     return render_template('update.html', post=post)
 
-#Eliminar un post
+#Eliminar un post 
 @app.route('/blog/delete/<int:id>')
 @login_required
 def delete(id):
