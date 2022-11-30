@@ -8,9 +8,18 @@ import functools
 from os import error
 from operator import pos
 
+import os
+
+
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'clave_secretaa'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost/blog_python'
+
+MYSQL_HOST = os.environ.get('MYSQL_HOST', '143.198.156.171') 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://BD2021:BD2021itec@'+MYSQL_HOST+'/blog_python'
+app.config["SECRET_KEY"] = "acalepongoloquequiera"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+app.config["pydev_do_not_trace"] = True
+
 
 db=SQLAlchemy(app)
 
@@ -211,4 +220,7 @@ def delete(id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+     # app.run(debug=True)
+    app.run(debug=True,host='0.0.0.0')
+    #app.run(debug=True, port=8000)
+    # app.run(host='0.0.0.0', port=8000)
